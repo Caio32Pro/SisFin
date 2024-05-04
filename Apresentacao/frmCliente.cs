@@ -77,15 +77,88 @@ namespace Apresentacao
 
         private void btnAdicionar_Click(object sender, System.EventArgs e)
         {
-            int id = int.Parse(txtId.Text);
-            string nome = txtNome.Text;
-            string email = txtEmail.Text;
-            TipoPessoa tp = radioPessoaFisica.Checked ? TipoPessoa.PESSOA_FISICA : TipoPessoa.PESSOA_JURIDICA;
-            
-            _clienteService.Insert(id, tp, nome, email);
-            
+            int id;
+            string nome;
+            string email;
 
-            atualizaListaCliente();
+            if (ValidateChildren(ValidationConstraints.Enabled))
+            {
+                id = int.Parse(txtId.Text);
+                nome = txtNome.Text;
+                email = txtEmail.Text;
+
+                TipoPessoa tp = radioPessoaFisica.Checked ? TipoPessoa.PESSOA_FISICA : TipoPessoa.PESSOA_JURIDICA;
+
+                _clienteService.Insert(id, tp, nome, email);
+
+
+                atualizaListaCliente();
+            }
+
+        }
+
+        private void txtNome_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+        
+            if (string.IsNullOrWhiteSpace(txtNome.Text))
+            {
+                e.Cancel = true;
+                txtNome.Focus();
+                errorProvider.SetError(txtNome, "O campo Nome é obrigatório!");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider.SetError(txtNome, "");
+            }
+        }
+
+        private void txtId_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtId.Text))
+            {
+                e.Cancel = true;
+                txtId.Focus();
+                errorProvider.SetError(txtId, "O campo Id é obrigatório!");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider.SetError(txtId, "");
+            }
+
+        }
+
+        private void txtEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                e.Cancel = true;
+                txtEmail.Focus();
+                errorProvider.SetError(txtEmail, "O campo Email é obrigatório!");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider.SetError(txtEmail, "");
+            }
+
+        }
+
+        private void radioPessoaFisica_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (radioPessoaFisica.Checked == false && radioPessoaJuridica.Checked == false)
+            {
+                e.Cancel = true;
+                radioPessoaFisica.Focus();
+                errorProvider.SetError(radioPessoaFisica, "É necessário informa o tipo de pessoa!");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider.SetError(radioPessoaFisica, "");
+            }
+
         }
     }
 }
