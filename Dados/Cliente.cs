@@ -9,7 +9,7 @@ namespace Dados
     public class Cliente
     {
         //Guid = numero de 16 bytes usado como identificador único
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public TipoPessoa tipoPessoa { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }

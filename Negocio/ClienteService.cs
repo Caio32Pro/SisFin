@@ -18,7 +18,7 @@ namespace Negocio
             _repository = new ClienteRepository();
         }
 
-        public void Insert(int id, TipoPessoa tipoPessoa, string nome, string email)
+        public string Update(int? id, TipoPessoa tipoPessoa, string nome, string email)
         {
             // Insira as validações e regras de negócio aqui
             // Por exemplo, verificar se o email já está cadastrado
@@ -31,16 +31,19 @@ namespace Negocio
                 Email = email
             };
 
-            _repository.Insert(cliente);
+            if (id == null)
+                return _repository.Insert(cliente);
+            else
+                return _repository.Update(cliente);
 
         }
 
-        public void Insert(Cliente cliente)
+        public string  Insert(Cliente cliente)
         {
             // Insira as validações e regras de negócio aqui
             // Por exemplo, verificar se o email já está cadastrado
 
-            _repository.Insert(cliente);
+            return _repository.Insert(cliente);
 
         }
 

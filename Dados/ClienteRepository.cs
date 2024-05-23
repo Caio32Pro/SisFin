@@ -57,10 +57,10 @@ namespace Dados
 
                 string updateSql = String.Format("UPDATE Cliente SET " +
                                     "Nome = @pNome, email = @pEmail " +
-                                    "WHERE idCliente = @pId ");
+                                    "WHERE id = @pId ");
                 SqlCommand SqlCmd = new SqlCommand(updateSql, Connection.SqlCon);
                 SqlCmd.Parameters.AddWithValue("pNome", cliente.Nome);
-                SqlCmd.Parameters.AddWithValue("pDoc", cliente.Email);
+                SqlCmd.Parameters.AddWithValue("pEmail", cliente.Email);
                 SqlCmd.Parameters.AddWithValue("pId", cliente.Id);
 
                 //executa o stored procedure
