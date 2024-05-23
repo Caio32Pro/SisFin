@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +60,29 @@ namespace Negocio
         public List<Cliente> getAll()
         {
             return _repository.ObterTodos().ToList<Cliente>();
+        }
+
+        public DataTable Mostrar()
+        {
+            DataTable DtResultado = new DataTable("cliente");
+            try
+            {
+                if (Connection.SqlCon.State == ConnectionState.Closed)
+                    Connection.SqlCon.Open();
+                String sqlSelect = "select * from Cliente";
+
+                SqlCommand SqlCmd = new SqlCommand();
+                SqlCmd.Connection = Connection.SqlCon;
+                SqlCmd.CommandText = sqlSelect;
+                SqlCmd.CommandType = CommandType.Text;
+                SqlDataAdapter SqlData = new SqlDataAdapter(SqlCmd);
+                SqlData.Fill(DtResultado);
+            }
+            catch (Exception ex)
+            {
+                DtResultado = null;
+            }
+            return DtResultado;
         }
 
     }

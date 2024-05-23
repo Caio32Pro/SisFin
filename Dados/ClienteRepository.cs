@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,18 +12,70 @@ namespace Dados
     {
         private IList<Cliente> _clientes = new List<Cliente>();
 
-        public Cliente Insert(Cliente cliente)
+        public string Insert(Cliente cliente)
         {
-            // Aqui você poderia inserir o cliente em um banco de dados
-            // Para simplificar, estamos apenas adicionando a uma lista em memória
-            this._clientes.Add(cliente);
-            return cliente;
+            string resp = "";
+            try
+            {
+                //codigo de inserção
+                if (Connection.SqlCon.State == ConnectionState.Closed)
+                    Connection.SqlCon.Open();
+
+                SqlCommand SqlCmd = new SqlCommand
+                {
+                    Connection = Connection.SqlCon,
+                    CommandText = "INSERT INTO Cliente (nome, email) VALUES (@pNome, @pEmail) ",
+                    CommandType = CommandType.Text
+                };
+                SqlCmd.Parameters.AddWithValue("pNome", cliente.Nome);
+                SqlCmd.Parameters.AddWithValue("pEmail", cliente.Email);
+
+                //executa o stored procedure
+                resp = SqlCmd.ExecuteNonQuery() == 1 ? "SUCESSO" : "FALHA";
+            }
+            catch (Exception ex)
+            {
+                resp = ex.Message;
+            }
+            finally
+            {
+                if (Connection.SqlCon.State == ConnectionState.Open)
+                    Connection.SqlCon.Close();
+            }
+ 
+            return resp;
         }
 
-        public Cliente Update(Cliente cliente)
+        public string Update(Cliente cliente)
         {
-            this._clientes[this._clientes.IndexOf(cliente)] = cliente;
-            return cliente;
+            string resp = "";
+            try
+            {
+                //codigo de inserção
+                if (Connection.SqlCon.State == ConnectionState.Closed)
+                    Connection.SqlCon.Open();
+
+                string updateSql = String.Format("UPDATE Cliente SET " +
+                                    "Nome = @pNome, email = @pEmail " +
+                                    "WHERE idCliente = @pId ");
+                SqlCommand SqlCmd = new SqlCommand(updateSql, Connection.SqlCon);
+                SqlCmd.Parameters.AddWithValue("pNome", cliente.Nome);
+                SqlCmd.Parameters.AddWithValue("pDoc", cliente.Email);
+                SqlCmd.Parameters.AddWithValue("pId", cliente.Id);
+
+                //executa o stored procedure
+                resp = SqlCmd.ExecuteNonQuery() == 1 ? "SUCESSO" : "FALHA";
+            }
+            catch (Exception ex)
+            {
+                resp = ex.Message;
+            }
+            finally
+            {
+                if (Connection.SqlCon.State == ConnectionState.Open)
+                    Connection.SqlCon.Close();
+            }
+            return resp;
         }
 
         public void Remove(Cliente cliente)

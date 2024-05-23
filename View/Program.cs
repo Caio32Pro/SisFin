@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,12 @@ namespace View
             VendaService vendaServ = new VendaService();
             ItemVendaService itemVendaServ = new ItemVendaService();
 
+            foreach(DataRow dr in cliServ.Mostrar().Rows)
+            {
+                Console.WriteLine(dr["nome"]);
+            }
+
+/*
             //Insere alguns clientes
             cliServ.Insert(1, TipoPessoa.PESSOA_FISICA, "Marcos Mariota", "mariota@exemplo.com");
             cliServ.Insert(2, TipoPessoa.PESSOA_FISICA, "Carla Kambota", "caka@capisce.com");
@@ -71,7 +78,7 @@ namespace View
                 Console.WriteLine(Environment.NewLine);
             }
 
-
+*/
 
              Console.ReadKey();
         }
