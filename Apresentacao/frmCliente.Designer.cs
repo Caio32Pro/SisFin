@@ -61,10 +61,13 @@ namespace Apresentacao
             // 
             // dgCliente
             // 
+            this.dgCliente.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgCliente.Location = new System.Drawing.Point(12, 207);
             this.dgCliente.Name = "dgCliente";
+            this.dgCliente.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgCliente.RowHeadersWidth = 51;
+            this.dgCliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgCliente.Size = new System.Drawing.Size(770, 204);
             this.dgCliente.TabIndex = 5;
             this.dgCliente.SelectionChanged += new System.EventHandler(this.dgCliente_SelectionChanged);
@@ -101,6 +104,7 @@ namespace Apresentacao
             this.btnCancela.TabIndex = 4;
             this.btnCancela.Text = "Cancelar";
             this.btnCancela.UseVisualStyleBackColor = true;
+            this.btnCancela.Click += new System.EventHandler(this.btnCancela_Click);
             // 
             // btnSalva
             // 

@@ -27,6 +27,12 @@ namespace Apresentacao
             dgCliente.Columns.Add("tipoPesso", "TIPO PESSOA");
             dgCliente.Columns.Add("email", "EMAIL");
 
+            dgCliente.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgCliente.AllowUserToAddRows = false;
+            dgCliente.AllowUserToDeleteRows = false;
+            dgCliente.AllowUserToOrderColumns = true;
+            dgCliente.ReadOnly = true;
+
             tblCliente = _clienteService.getAll();
         }
 
@@ -178,7 +184,7 @@ namespace Apresentacao
             }
             else if (modo == 2)
             {
-                resultado = _clienteService.Update(null, tp, nome, email);
+                resultado = _clienteService.Update(id, tp, nome, email);
                 if (resultado == "SUCESSO")
                 {
                     msg = "CLIENTE atualizado com sucesso!";
@@ -218,6 +224,12 @@ namespace Apresentacao
                 MessageBox.Show(msg, "Aviso do sistema!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
+        }
+
+        private void btnCancela_Click(object sender, EventArgs e)
+        {
+            modo = 0;
+            Habilita();
         }
     }
 }
