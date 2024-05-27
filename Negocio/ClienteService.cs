@@ -39,7 +39,7 @@ namespace Negocio
 
         }
 
-        public string  Insert(Cliente cliente)
+        public string Insert(Cliente cliente)
         {
             // Insira as validações e regras de negócio aqui
             // Por exemplo, verificar se o email já está cadastrado
@@ -47,28 +47,38 @@ namespace Negocio
             return _repository.Insert(cliente);
 
         }
+        public string Remove(int idCliente)
+        {
+            // Insira as validações e regras de negócio aqui
+            // Por exemplo, verificar se o email já está cadastrado
+
+            return _repository.Remove(idCliente);
+
+        }
 
         public DataTable getAll()
         {
-            DataTable DtResultado = new DataTable("cliente");
-            try
-            {
-                if (Connection.SqlCon.State == ConnectionState.Closed)
-                    Connection.SqlCon.Open();
-                String sqlSelect = "select * from cliente";
+            //DataTable DtResultado = new DataTable("cliente");
+            //try
+            //{
+            //    Connection.getConnection();
 
-                MySqlCommand SqlCmd = new MySqlCommand();
-                SqlCmd.Connection = Connection.SqlCon;
-                SqlCmd.CommandText = sqlSelect;
-                SqlCmd.CommandType = CommandType.Text;
-                MySqlDataAdapter SqlData = new MySqlDataAdapter(SqlCmd);
-                SqlData.Fill(DtResultado);
-            }
-            catch (Exception ex)
-            {
-                DtResultado = null;
-            }
-            return DtResultado;
+            //    String sqlSelect = "select * from cliente";
+
+            //    MySqlCommand SqlCmd = new MySqlCommand();
+            //    SqlCmd.Connection = Connection.SqlCon;
+            //    SqlCmd.CommandText = sqlSelect;
+            //    SqlCmd.CommandType = CommandType.Text;
+            //    MySqlDataAdapter SqlData = new MySqlDataAdapter(SqlCmd);
+            //    SqlData.Fill(DtResultado);
+            //}
+            //catch (Exception ex)
+            //{
+            //    DtResultado = null;
+            //}
+            //return DtResultado;
+
+            return _repository.getAll();
         }
 
     }

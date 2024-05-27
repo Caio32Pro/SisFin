@@ -12,18 +12,17 @@ namespace Dados
     public class Connection
     {
         public static String conString = ConfigurationManager.ConnectionStrings["cnStrMysql"].ConnectionString;
-        public static MySqlConnection SqlCon = new MySqlConnection(conString);
+        public static MySqlConnection SqlCon = new MySqlConnection();
 
-        public static MySqlConnection getConnection()
+        public static void getConnection()
         {
             try
             {
-                String conString = ConfigurationManager.ConnectionStrings["cnStrMysql"].ConnectionString;
                 if (Connection.SqlCon.State == System.Data.ConnectionState.Closed)
                 {
-                    MySqlConnection SqlCon = new MySqlConnection(conString);
+                   Connection.SqlCon.ConnectionString=conString;
+                   Connection.SqlCon.Open();
                 }
-                return SqlCon;
             }
             catch (Exception)
             {

@@ -12,16 +12,13 @@ namespace Dados
 {
     public class ClienteRepository
     {
-        private IList<Cliente> _clientes = new List<Cliente>();
-
+ 
         public string Insert(Cliente cliente)
         {
             string resp = "";
             try
             {
-                //codigo de inserção
-                if (Connection.SqlCon.State == ConnectionState.Closed)
-                    Connection.SqlCon.Open();
+                Connection.getConnection();
 
                 MySqlCommand SqlCmd = new MySqlCommand
                 {
@@ -54,11 +51,9 @@ namespace Dados
             string resp = "";
             try
             {
-                //codigo de inserção
-                if (Connection.SqlCon.State == ConnectionState.Closed)
-                    Connection.SqlCon.Open();
+                Connection.getConnection();
 
-                string updateSql = String.Format("UPDATE Cliente SET " +
+                string updateSql = String.Format("UPDATE cliente SET " +
                                     "Nome = @pNome, email = @pEmail " +
                                     "WHERE id = @pId ");
                 MySqlCommand SqlCmd = new MySqlCommand(updateSql, Connection.SqlCon);
@@ -81,9 +76,31 @@ namespace Dados
             return resp;
         }
 
-        public void Remove(Cliente cliente)
+        public string Remove(int idCliente)
         {
-            this._clientes.Remove(cliente);
+            string resp = "";
+            try
+            {
+                Connection.getConnection();
+
+                string updateSql = String.Format("DELETE FROM cliente " +
+                                    "WHERE id = @pId ");
+                MySqlCommand SqlCmd = new MySqlCommand(updateSql, Connection.SqlCon);
+                SqlCmd.Parameters.AddWithValue("pId", idCliente);
+
+                //executa o stored procedure
+                resp = SqlCmd.ExecuteNonQuery() == 1 ? "SUCESSO" : "FALHA";
+            }
+            catch (Exception ex)
+            {
+                resp = ex.Message;
+            }
+            finally
+            {
+                if (Connection.SqlCon.State == ConnectionState.Open)
+                    Connection.SqlCon.Close();
+            }
+            return resp;
         }
 
         public DataTable getAll()
@@ -91,9 +108,8 @@ namespace Dados
             DataTable DtResultado = new DataTable("cliente");
             try
             {
-                if (Connection.SqlCon.State == ConnectionState.Closed)
-                    Connection.SqlCon.Open();
-                String sqlSelect = "select * from Cliente";
+                Connection.getConnection();
+                String sqlSelect = "select * from cliente";
 
                 MySqlCommand SqlCmd = new MySqlCommand();
                 SqlCmd.Connection = Connection.SqlCon;
