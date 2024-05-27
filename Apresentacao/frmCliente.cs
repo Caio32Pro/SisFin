@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 using Dados;
 using Negocio;
@@ -9,7 +10,7 @@ namespace Apresentacao
     public partial class frmCliente : Form
     {
         private readonly ClienteService _clienteService;
-        private List<Cliente> lstCliente = new List<Cliente>();
+        private DataTable tblCliente = new DataTable();
         public frmCliente()
         {
             InitializeComponent();
@@ -20,22 +21,7 @@ namespace Apresentacao
             dgCliente.Columns.Add("tipoPesso", "TIPO PESSOA");
             dgCliente.Columns.Add("email", "EMAIL");
 
-            lstCliente = _clienteService.getAll();
-
-            geraAleatorios();
-        }
-
-        private void geraAleatorios()
-        {
-            for (int n = 1; n <= 10; n++)
-            {
-                Cliente c = new Cliente();
-                c.Id = n;
-                c.Nome = "Cliente numero " + n.ToString();
-                c.Email = "cl" + n.ToString() + "@exemplo.com.br";
-                c.tipoPessoa = (n % 2) == 0 ? TipoPessoa.PESSOA_FISICA : TipoPessoa.PESSOA_JURIDICA;
-                _clienteService.Insert(c);
-            }
+            tblCliente = _clienteService.getAll();
         }
 
         private void frmCliente_Load(object sender, System.EventArgs e)
@@ -81,83 +67,15 @@ namespace Apresentacao
             string nome;
             string email;
 
-            if (ValidateChildren(ValidationConstraints.Enabled))
-            {
-                id = int.Parse(txtId.Text);
                 nome = txtNome.Text;
                 email = txtEmail.Text;
 
                 TipoPessoa tp = radioPessoaFisica.Checked ? TipoPessoa.PESSOA_FISICA : TipoPessoa.PESSOA_JURIDICA;
 
-                _clienteService.Insert(id, tp, nome, email);
+                _clienteService.Insert(new Cliente(null, tp, nome, email));
 
 
                 atualizaListaCliente();
-            }
-
-        }
-
-        private void txtNome_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-        
-            if (string.IsNullOrWhiteSpace(txtNome.Text))
-            {
-                e.Cancel = true;
-                txtNome.Focus();
-                errorProvider.SetError(txtNome, "O campo Nome é obrigatório!");
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider.SetError(txtNome, "");
-            }
-        }
-
-        private void txtId_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtId.Text))
-            {
-                e.Cancel = true;
-                txtId.Focus();
-                errorProvider.SetError(txtId, "O campo Id é obrigatório!");
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider.SetError(txtId, "");
-            }
-
-        }
-
-        private void txtEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                e.Cancel = true;
-                txtEmail.Focus();
-                errorProvider.SetError(txtEmail, "O campo Email é obrigatório!");
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider.SetError(txtEmail, "");
-            }
-
-        }
-
-        private void radioPessoaFisica_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (radioPessoaFisica.Checked == false && radioPessoaJuridica.Checked == false)
-            {
-                e.Cancel = true;
-                radioPessoaFisica.Focus();
-                errorProvider.SetError(radioPessoaFisica, "É necessário informa o tipo de pessoa!");
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider.SetError(radioPessoaFisica, "");
-            }
 
         }
     }

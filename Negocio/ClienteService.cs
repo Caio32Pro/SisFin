@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dados;
+using MySql.Data.MySqlClient;
 
 namespace Negocio
 {
@@ -47,38 +48,20 @@ namespace Negocio
 
         }
 
-        public Cliente FindById(int id)
-        {
-            foreach(Cliente c in _repository.getAll())
-            {
-                if (c.Id == id) return c;
-            }
-            return null;
-        }
-
-        public IEnumerable<Cliente> ObterTodos()
-        {
-            return _repository.ObterTodos();
-        }
-        public List<Cliente> getAll()
-        {
-            return _repository.ObterTodos().ToList<Cliente>();
-        }
-
-        public DataTable Mostrar()
+        public DataTable getAll()
         {
             DataTable DtResultado = new DataTable("cliente");
             try
             {
                 if (Connection.SqlCon.State == ConnectionState.Closed)
                     Connection.SqlCon.Open();
-                String sqlSelect = "select * from Cliente";
+                String sqlSelect = "select * from cliente";
 
-                SqlCommand SqlCmd = new SqlCommand();
+                MySqlCommand SqlCmd = new MySqlCommand();
                 SqlCmd.Connection = Connection.SqlCon;
                 SqlCmd.CommandText = sqlSelect;
                 SqlCmd.CommandType = CommandType.Text;
-                SqlDataAdapter SqlData = new SqlDataAdapter(SqlCmd);
+                MySqlDataAdapter SqlData = new MySqlDataAdapter(SqlCmd);
                 SqlData.Fill(DtResultado);
             }
             catch (Exception ex)

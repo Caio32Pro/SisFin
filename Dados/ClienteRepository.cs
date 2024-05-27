@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -21,14 +23,15 @@ namespace Dados
                 if (Connection.SqlCon.State == ConnectionState.Closed)
                     Connection.SqlCon.Open();
 
-                SqlCommand SqlCmd = new SqlCommand
+                MySqlCommand SqlCmd = new MySqlCommand
                 {
                     Connection = Connection.SqlCon,
-                    CommandText = "INSERT INTO Cliente (nome, email) VALUES (@pNome, @pEmail) ",
+                    CommandText = "INSERT INTO cliente (nome, email, tipoPessoa) VALUES (@pNome, @pEmail, @pTipoPessoa) ",
                     CommandType = CommandType.Text
                 };
                 SqlCmd.Parameters.AddWithValue("pNome", cliente.Nome);
                 SqlCmd.Parameters.AddWithValue("pEmail", cliente.Email);
+                SqlCmd.Parameters.AddWithValue("pTipoPessoa", cliente.tipoPessoa);
 
                 //executa o stored procedure
                 resp = SqlCmd.ExecuteNonQuery() == 1 ? "SUCESSO" : "FALHA";
@@ -58,7 +61,7 @@ namespace Dados
                 string updateSql = String.Format("UPDATE Cliente SET " +
                                     "Nome = @pNome, email = @pEmail " +
                                     "WHERE id = @pId ");
-                SqlCommand SqlCmd = new SqlCommand(updateSql, Connection.SqlCon);
+                MySqlCommand SqlCmd = new MySqlCommand(updateSql, Connection.SqlCon);
                 SqlCmd.Parameters.AddWithValue("pNome", cliente.Nome);
                 SqlCmd.Parameters.AddWithValue("pEmail", cliente.Email);
                 SqlCmd.Parameters.AddWithValue("pId", cliente.Id);
@@ -83,14 +86,28 @@ namespace Dados
             this._clientes.Remove(cliente);
         }
 
-        public IEnumerable<Cliente> ObterTodos()
+        public DataTable getAll()
         {
-            return _clientes;
+            DataTable DtResultado = new DataTable("cliente");
+            try
+            {
+                if (Connection.SqlCon.State == ConnectionState.Closed)
+                    Connection.SqlCon.Open();
+                String sqlSelect = "select * from Cliente";
+
+                MySqlCommand SqlCmd = new MySqlCommand();
+                SqlCmd.Connection = Connection.SqlCon;
+                SqlCmd.CommandText = sqlSelect;
+                SqlCmd.CommandType = CommandType.Text;
+                MySqlDataAdapter SqlData = new MySqlDataAdapter(SqlCmd);
+                SqlData.Fill(DtResultado);
+            }
+            catch (Exception ex)
+            {
+                DtResultado = null;
+            }
+            return DtResultado;
         }
 
-        public IList<Cliente> getAll()
-        {
-            return _clientes;
-        }
     }
 }

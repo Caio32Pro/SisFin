@@ -14,6 +14,18 @@ namespace Dados
         public string Nome { get; set; }
         public string Email { get; set; }
 
+        public Cliente()
+        {
+        }
+
+        public Cliente(int? id, TipoPessoa tipoPessoa, string nome, string email)
+        {
+            Id = id;
+            this.tipoPessoa = tipoPessoa;
+            Nome = nome;
+            Email = email;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Cliente cliente &&
