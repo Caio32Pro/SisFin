@@ -44,6 +44,7 @@ namespace Apresentacao
             this.label3 = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnBusca = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).BeginInit();
             this.grpDados.SuspendLayout();
             this.SuspendLayout();
@@ -120,6 +121,7 @@ namespace Apresentacao
             // 
             // grpDados
             // 
+            this.grpDados.Controls.Add(this.btnBusca);
             this.grpDados.Controls.Add(this.radioPessoaJuridica);
             this.grpDados.Controls.Add(this.radioPessoaFisica);
             this.grpDados.Controls.Add(this.txtEmail);
@@ -214,6 +216,17 @@ namespace Apresentacao
             this.label1.TabIndex = 8;
             this.label1.Text = "Nome:";
             // 
+            // btnBusca
+            // 
+            this.btnBusca.BackgroundImage = global::Apresentacao.Properties.Resources.lupa;
+            this.btnBusca.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnBusca.Location = new System.Drawing.Point(713, 138);
+            this.btnBusca.Name = "btnBusca";
+            this.btnBusca.Size = new System.Drawing.Size(50, 48);
+            this.btnBusca.TabIndex = 12;
+            this.btnBusca.UseVisualStyleBackColor = true;
+            this.btnBusca.Click += new System.EventHandler(this.btnBusca_Click);
+            // 
             // frmCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -253,5 +266,6 @@ namespace Apresentacao
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnBusca;
     }
 }

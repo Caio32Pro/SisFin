@@ -58,27 +58,11 @@ namespace Negocio
 
         public DataTable getAll()
         {
-            //DataTable DtResultado = new DataTable("cliente");
-            //try
-            //{
-            //    Connection.getConnection();
-
-            //    String sqlSelect = "select * from cliente";
-
-            //    MySqlCommand SqlCmd = new MySqlCommand();
-            //    SqlCmd.Connection = Connection.SqlCon;
-            //    SqlCmd.CommandText = sqlSelect;
-            //    SqlCmd.CommandType = CommandType.Text;
-            //    MySqlDataAdapter SqlData = new MySqlDataAdapter(SqlCmd);
-            //    SqlData.Fill(DtResultado);
-            //}
-            //catch (Exception ex)
-            //{
-            //    DtResultado = null;
-            //}
-            //return DtResultado;
-
             return _repository.getAll();
+        }
+        public DataTable filterByName(string nome)
+        {
+            return _repository.filterByName(nome);
         }
 
     }

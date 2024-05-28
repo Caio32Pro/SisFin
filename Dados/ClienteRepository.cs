@@ -125,5 +125,35 @@ namespace Dados
             return DtResultado;
         }
 
+        public DataTable filterByName(string pNome)
+        {
+            DataTable DtResultado = new DataTable("cliente");
+            string selectSql;
+            try
+            {
+                Connection.getConnection();
+                if (!string.IsNullOrEmpty(pNome))
+                {
+                    selectSql = String.Format("SELECT * FROM cliente WHERE nome LIKE @pNome");
+                    pNome = '%' + pNome + '%';
+                }
+                else
+                {
+                    selectSql = String.Format("SELECT * FROM cliente");
+                }
+                MySqlCommand SqlCmd = new MySqlCommand(selectSql, Connection.SqlCon);
+                if (!string.IsNullOrEmpty(pNome))
+                    SqlCmd.Parameters.AddWithValue("pNome", pNome);
+                MySqlDataAdapter SqlData = new MySqlDataAdapter(SqlCmd);
+                SqlData.Fill(DtResultado);
+            }
+            catch (Exception ex)
+            {
+                DtResultado = null;
+            }
+            return DtResultado;
+        }
+
+
     }
 }

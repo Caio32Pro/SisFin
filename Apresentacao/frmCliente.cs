@@ -231,5 +231,19 @@ namespace Apresentacao
             modo = 0;
             Habilita();
         }
+
+        private void btnBusca_Click(object sender, EventArgs e)
+        {
+            frmPrompt f = new frmPrompt();
+            string txtBusca = "";
+            f.ShowDialog();
+            txtBusca = f.Texto;
+            DataTable tbClientes = _clienteService.filterByName(txtBusca);
+            if(tbClientes!=null)
+            {
+                dgCliente.DataSource = tbClientes;
+                dgCliente.Refresh();
+            }
+        }
     }
 }
