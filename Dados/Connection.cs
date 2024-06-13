@@ -16,18 +16,30 @@ namespace Dados
 
         public static void getConnection()
         {
+            /*SqlConnection con = null;
             try
             {
-                if (Connection.SqlCon.State == System.Data.ConnectionState.Closed)
+                String conString = ConfigurationManager.
+                                        ConnectionStrings["ConnectionString"].
+                                        ConnectionString;
+                con = new SqlConnection(conString);
+                con.Open();
+                SqlCommand cm = new SqlCommand("Select * from professor", con);
+                SqlDataReader dataReader = cm.ExecuteReader();
+                while (dataReader.Read())
                 {
-                   Connection.SqlCon.ConnectionString=conString;
-                   Connection.SqlCon.Open();
+                    Console.WriteLine(dataReader["matricula"] + "-" + dataReader["nome"]);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Console.WriteLine("OOPs, algo deu errado!\n" + e);
             }
+            finally
+            {
+                Console.WriteLine("\n\nAperte qualquer tecla para fechar!");
+                Console.ReadKey();
+            }*/
         }
 
     }
